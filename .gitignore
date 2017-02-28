@@ -1,2 +1,5 @@
 *.el~
 *.el#
+*.org#
+/auto-save-list
+/elpa
