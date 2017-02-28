@@ -1,3 +1,11 @@
+(when window-system
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tooltip-mode -1))
+  
+(setq inhibit-splash-screen t)
+(setq mac-right-option-modifier nil)
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -16,9 +24,6 @@
     (("gnu" . "http://elpa.gnu.org/packages/")
      ("melpa-stable" . "http://stable.melpa.org/packages/"))))
  '(package-selected-packages (quote (haskell-mode))))
-
-(setq inhibit-splash-screen t)
-(setq mac-right-option-modifier nil)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
