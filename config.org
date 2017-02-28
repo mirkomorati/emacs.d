@@ -1,10 +1,8 @@
 #+TITLE: My Emacs Configuration
 #+AUTHOR: Mirko Morati
 
-:PROPERTIES: 
 Based on the work of [[https://github.com/sachac/.emacs.d/blob/gh-pages/Sacha.org][Sacha Cua]] and other resources.
-Don't hate me.
-:END:
+Thanks to the Internet.
 
 * Configuration
 ** Start up
