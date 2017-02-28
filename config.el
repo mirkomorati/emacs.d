@@ -1,83 +1,51 @@
-#+TITLE: My Emacs Configuration
-#+AUTHOR: Mirko Morati
 
-:PROPERTIES: 
-Based on the work of [[https://github.com/sachac/.emacs.d/blob/gh-pages/Sacha.org][Sacha Cua]] and other resources.
-Don't hate me.
-:END:
+;; Maybe it will improve startup time
+(setq gc-cons-threshold 100000000)
 
-* Configuration
-** Start up
-#+BEGIN_SRC emacs-lisp
-  ;; Maybe it will improve startup time
-  (setq gc-cons-threshold 100000000)
+;; Sets up the load path
+(package-initialize)
 
-  ;; Sets up the load path
-  (package-initialize)
+;; Turn off mouse interface
+(when window-system
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tooltip-mode -1))
 
-  ;; Turn off mouse interface
-  (when window-system
-    (menu-bar-mode -1)
-    (tool-bar-mode -1)
-    (scroll-bar-mode -1)
-    (tooltip-mode -1))
+;; Turn off splash screen
+(setq inhibit-splash-screen t)
 
-  ;; Turn off splash screen
-  (setq inhibit-splash-screen t)
+;; Set the right option-key to not work as meta-key
+(setq mac-right-option-modifier nil)
 
-  ;; Set the right option-key to not work as meta-key
-  (setq mac-right-option-modifier nil)
-#+END_SRC
-
-#+RESULTS:
-
-** Personal information
-#+BEGIN_SRC emacs-lisp
 (setq user-full-name "Mirko Morati")
-#+END_SRC
 
-** Emacs initialization
-*** Add package sources
-#+BEGIN_SRC emacs-lisp
-  ;; Sets the melpa archive
-  (unless (assoc-default "melpa" package-archives)
-    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-  ;  (package-refresh-contents)
-    )
+;; Sets the melpa archive
+(unless (assoc-default "melpa" package-archives)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+;  (package-refresh-contents)
+  )
 
-  ;; Using use-package
-  (unless (package-installed-p 'use-package)
-    (package-install 'use-package))
-  (setq use-package-verbose t)
-  (setq use-package-always-ensure t)
-  (require 'use-package)
-  (use-package auto-compile
-    :config (auto-compile-on-load-mode))
-  (setq load-prefer-newer t)
-#+END_SRC
+;; Using use-package
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+(setq use-package-verbose t)
+(setq use-package-always-ensure t)
+(require 'use-package)
+(use-package auto-compile
+  :config (auto-compile-on-load-mode))
+(setq load-prefer-newer t)
 
-** General configuration
-*** Libraries
-#+BEGIN_SRC emacs-lisp
 (use-package dash)
-#+END_SRC
 
-*** Backups
-#+BEGIN_SRC emacs-lisp
-  (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-  (setq delete-old-versions -1)
-  (setq version-control t)
-  (setq vc-make-backup-files t)
-  (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
-#+END_SRC
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+(setq delete-old-versions -1)
+(setq version-control t)
+(setq vc-make-backup-files t)
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 
-*** Change "yes or no" to "y or n"
-#+BEGIN_SRC emacs-lisp
 (fset 'yes-or-no-p 'y-or-n-p)
-#+END_SRC
 
-*** Undo tree mode
-#+BEGIN_SRC emacs-lisp
 (use-package undo-tree
   :diminish undo-tree-mode
   :config
@@ -85,56 +53,33 @@ Don't hate me.
     (global-undo-tree-mode)
     (setq undo-tree-visualizer-timestamps t)
     (setq undo-tree-visualizer-diff t)))
-#+END_SRC
 
-*** Guide key
-#+BEGIN_SRC emacs-lisp
 (use-package guide-key
   :defer t
   :diminish guide-key-mode
   :config
   (progn
   (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-c"))
-  (guide-key-mode 1)))  
-#+END_SRC
+  (guide-key-mode 1)))
 
-*** UTF-8
-#+BEGIN_SRC emacs-lisp
 (prefer-coding-system 'utf-8)
 (when (display-graphic-p)
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
-#+END_SRC
-    
-*** Blinking cursor
-#+BEGIN_SRC emacs-lisp
+
 (blink-cursor-mode -1)
-#+END_SRC
 
-*** Indicate empty lines
-#+BEGIN_SRC emacs-lisp
 (setq-default indicate-empty-lines t)
-#+END_SRC
 
-*** One space ends a period
-#+BEGIN_SRC emacs-lisp
 (setq sentence-end-double-space nil)
-#+END_SRC
 
-** Navigation
-*** Windmove
-#+BEGIN_SRC emacs-lisp
 (use-package windmove
   :bind
-  (("<s-right>" . windmove-right)
-   ("<s-left>" . windmove-left)
-   ("<s-up>" . windmove-up)
-   ("<s-down>" . windmove-down)
+  (("C-c w  <right>" . windmove-right)
+   ("C-c w  <left>" . windmove-left)
+   ("C-c w  <up>" . windmove-up)
+   ("C-c w  <down>" . windmove-down)
    ))
-#+END_SRC
 
-*** Frequently accessed files
-To jump to a register, use =C-x r j= followed by the letter of the register.
-#+BEGIN_SRC emacs-lisp
 (defvar my/refile-map (make-sparse-keymap))
 
 (defmacro my/defshortcut (key file)
@@ -150,18 +95,9 @@ To jump to a register, use =C-x r j= followed by the letter of the register.
 
 (my/defshortcut ?c "~/.emacs.d/config.org")
 (my/defshortcut ?u "~/Documents/Org-mode/university.org")
-#+END_SRC
 
-*** Org mode
-#+BEGIN_SRC emacs-lisp
 (setq org-src-window-setup 'current-window)
-#+END_SRC
 
-** Coding
-*** Emacs Lisp
-**** Eldoc
-Eldoc provides minibuffer hints when working with Emacs Lisp.
-#+BEGIN_SRC emacs-lisp
 (use-package "eldoc"
   :diminish eldoc-mode
   :commands turn-on-eldoc-mode
@@ -171,15 +107,9 @@ Eldoc provides minibuffer hints when working with Emacs Lisp.
   (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
   (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
   (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)))
-#+END_SRC
 
-*** Show column number
-#+BEGIN_SRC emacs-lisp
 (column-number-mode 1)
-#+END_SRC
 
-*** Editing multiple things
-#+BEGIN_SRC emacs-lisp
 (use-package multiple-cursors
   :bind
    (("C-c m t" . mc/mark-all-like-this)
@@ -194,22 +124,14 @@ Eldoc provides minibuffer hints when working with Emacs Lisp.
 (use-package phi-search)
 (use-package phi-search-mc :config (phi-search-mc/setup-keys))
 (use-package mc-extras :config (define-key mc/keymap (kbd "C-. =") 'mc/compare-chars))
-#+END_SRC
 
-** Personalization    
-*** Themes
-**** Solarized theme
-#+BEGIN_SRC emacs-lisp
 (use-package solarized-theme
   :defer 10
   :init
   ;:ensure t
   (setq solarized-use-variable-pitch nil)
 )
-#+END_SRC
 
-**** Monokai theme
-#+BEGIN_SRC emacs-lisp
 (use-package monokai-theme
   :if window-system
   :ensure t
@@ -217,10 +139,7 @@ Eldoc provides minibuffer hints when working with Emacs Lisp.
   ;(setq monokai-use-variable-pitch nil)
   (load-theme 'monokai t)
 )
-#+END_SRC
 
-**** Waher theme
-#+BEGIN_SRC emacs-lisp
 (use-package waher-theme
   :if window-system
   :ensure t
@@ -228,10 +147,7 @@ Eldoc provides minibuffer hints when working with Emacs Lisp.
   (setq waher-use-variable-pitch nil)
   ;(load-theme 'waher t)
 )
-#+END_SRC
-     
-**** Theme functions
-#+BEGIN_SRC emacs-lisp
+
 (defun switch-theme (theme)
   "Disables any currently active themes and loads THEME."
   ;; This interactive call is taken from `load-theme'
@@ -251,20 +167,13 @@ Eldoc provides minibuffer hints when working with Emacs Lisp.
 
 (bind-key "s-<f12>" 'switch-theme)
 (bind-key "s-<f11>" 'disable-active-themes)
-#+END_SRC
 
-*** Font
-**** Emoji
-#+BEGIN_SRC emacs-lisp
 (let ((font (if (= emacs-major-version 25)
                 "Symbola"
               (cond ((string-equal system-type "darwin")    "Apple Color Emoji")
                     ((string-equal system-type "gnu/linux") "Symbola")))))
   (set-fontset-font t 'unicode font nil 'prepend))
-#+END_SRC
-** Misc
-*** Display random function
-#+BEGIN_SRC emacs-lisp
+
 (defun my/describe-random-interactive-function ()
   (interactive)
   "Show the documentation for a random interactive function.
@@ -277,9 +186,5 @@ Consider only documented, non-obsolete functions."
                   (null (get s 'byte-obsolete-info)))
          (setq result (cons s result)))))
     (describe-function (elt result (random (length result))))))
-#+END_SRC
-*** OS X scrolling
-#+BEGIN_SRC emacs-lisp
+
 (setq mouse-wheel-scroll-amount (quote (0.01)))
-#+END_SRC
-    
