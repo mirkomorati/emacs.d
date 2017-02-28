@@ -74,10 +74,10 @@
 
 (use-package windmove
   :bind
-  (("C-c w  <right>" . windmove-right)
-   ("C-c w  <left>" . windmove-left)
-   ("C-c w  <up>" . windmove-up)
-   ("C-c w  <down>" . windmove-down)
+  (("<s-right>" . windmove-right)
+   ("<s-left>" . windmove-left)
+   ("<s-up>" . windmove-up)
+   ("<s-down>" . windmove-down)
    ))
 
 (defvar my/refile-map (make-sparse-keymap))
