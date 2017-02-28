@@ -26,9 +26,7 @@ Thanks to the Internet.
   ;; Set the right option-key to not work as meta-key
   (setq mac-right-option-modifier nil)
 #+END_SRC
-
-#+RESULTS:
-
+   
 ** Personal information
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "Mirko Morati")
@@ -221,7 +219,7 @@ Eldoc provides minibuffer hints when working with Emacs Lisp.
 #+BEGIN_SRC emacs-lisp
 (use-package waher-theme
   :if window-system
-  :ensure t
+  ;:ensure t
   :init
   (setq waher-use-variable-pitch nil)
   ;(load-theme 'waher t)

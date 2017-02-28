@@ -142,7 +142,7 @@
 
 (use-package waher-theme
   :if window-system
-  :ensure t
+  ;:ensure t
   :init
   (setq waher-use-variable-pitch nil)
   ;(load-theme 'waher t)
