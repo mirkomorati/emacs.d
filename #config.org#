@@ -1,0 +1,68 @@
+#+TITLE: My Emacs Configuration
+#+AUTHOR: Mirko Morati
+
+:PROPERTIES: 
+Based on the work of [[https://github.com/sachac/.emacs.d/blob/gh-pages/Sacha.org][Sacha Cua]] and other resources.
+Don't hate me.
+:END:
+
+* Configuration
+** Start up
+#+BEGIN_SRC emacs-lisp
+  ;; Sets up the load path
+  (package-initialize)
+
+  ;; Turn off mouse interface
+  (when window-system
+    (menu-bar-mode -1)
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1)
+    (tooltip-mode -1))
+  
+  ;; Turn off splash screen
+  (setq inhibit-splash-screen t)
+
+  ;; Set the right option-key to not work as meta-key
+  (setq mac-right-option-modifier nil)
+#+END_SRC
+
+** Personal information
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "Mirko Morati")
+#+END_SRC
+
+** Emacs initialization
+*** Add package sources
+#+BEGIN_SRC emacs-lisp
+  ;; Sets the melpa archive
+  (unless (assoc-default "melpa" package-archives)
+    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+  ;  (package-refresh-contents)
+    )
+
+  ;; Using use-package
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+  (setq use-package-verbose t)
+  (setq use-package-always-ensure t)
+  (require 'use-package)
+  (use-package auto-compile
+    :config (auto-compile-on-load-mode))
+  (setq load-prefer-newer t)
+#+END_SRC
+
+** General configuration
+*** Libraries
+#+BEGIN_SRC emacs-lisp
+(use-package dash)
+#+END_SRC
+
+*** Backups
+#+BEGIN_SRC emacs-lisp
+  (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+  (setq delete-old-versions -1)
+  (setq version-control t)
+  (setq vc-make-backup-files t)
+  (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+
+#+END_SRC
