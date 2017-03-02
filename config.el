@@ -19,6 +19,7 @@
 (setq mac-right-option-modifier nil)
 
 (setq user-full-name "Mirko Morati")
+(load "~/.emacs.d/personal.org")
 
 ;; Sets the melpa archive
 (unless (assoc-default "melpa" package-archives)
@@ -68,6 +69,8 @@
 
 (blink-cursor-mode -1)
 
+(setq visible-bell t)
+
 (setq-default indicate-empty-lines t)
 
 (setq sentence-end-double-space nil)
@@ -94,9 +97,16 @@
            (call-interactively 'org-refile))))))
 
 (my/defshortcut ?c "~/.emacs.d/config.org")
-(my/defshortcut ?u "~/Documents/Org-mode/university.org")
+(my/defshortcut ?u "~/Desktop/UNIVR/UNIVR 2016-2017/universita.org")
 
 (setq org-src-window-setup 'current-window)
+
+(use-package org-bullets
+  :ensure t
+  :commands (org-bullets-mode)
+  :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(setq next-line-add-newlines t)
 
 (use-package "eldoc"
   :diminish eldoc-mode
@@ -124,6 +134,23 @@
 (use-package phi-search)
 (use-package phi-search-mc :config (phi-search-mc/setup-keys))
 (use-package mc-extras :config (define-key mc/keymap (kbd "C-. =") 'mc/compare-chars))
+
+(use-package smartparens
+  :ensure t
+  :diminish smartparens-mode
+  :config
+  (progn
+    (require 'smartparens-config)
+    (smartparens-global-mode 1)))
+
+(use-package erc
+  :config
+  (setq erc-autojoin-channels-alist '(("freenode.net"
+                                      ; "#emacs"
+                                      ; "#emacs-beginners"
+                                     ))
+        erc-server "irc.freenode.net"
+        erc-nick irc-personal-nick))
 
 (use-package solarized-theme
   :defer 10

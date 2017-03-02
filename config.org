@@ -30,6 +30,7 @@ Thanks to the Internet.
 ** Personal information
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "Mirko Morati")
+(load "~/.emacs.d/personal.org")
 #+END_SRC
 
 ** Emacs initialization
@@ -106,6 +107,11 @@ Thanks to the Internet.
 (blink-cursor-mode -1)
 #+END_SRC
 
+*** I hate bells
+#+BEGIN_SRC emacs-lisp
+(setq visible-bell t)
+#+END_SRC
+
 *** Indicate empty lines
 #+BEGIN_SRC emacs-lisp
 (setq-default indicate-empty-lines t)
@@ -145,12 +151,26 @@ To jump to a register, use =C-x r j= followed by the letter of the register.
            (call-interactively 'org-refile))))))
 
 (my/defshortcut ?c "~/.emacs.d/config.org")
-(my/defshortcut ?u "~/Documents/Org-mode/university.org")
+(my/defshortcut ?u "~/Desktop/UNIVR/UNIVR 2016-2017/universita.org")
 #+END_SRC
 
 *** Org mode
 #+BEGIN_SRC emacs-lisp
 (setq org-src-window-setup 'current-window)
+#+END_SRC
+
+Nice bullets
+#+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+  :ensure t
+  :commands (org-bullets-mode)
+  :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+END_SRC
+
+*** Newlines with C-n
+When you are at the end of the buffer, =C-n= adds new lines
+#+BEGIN_SRC emacs-lisp
+(setq next-line-add-newlines t)
 #+END_SRC
 
 ** Coding
@@ -190,6 +210,30 @@ Eldoc provides minibuffer hints when working with Emacs Lisp.
 (use-package phi-search)
 (use-package phi-search-mc :config (phi-search-mc/setup-keys))
 (use-package mc-extras :config (define-key mc/keymap (kbd "C-. =") 'mc/compare-chars))
+#+END_SRC
+
+*** Smartparens
+#+BEGIN_SRC emacs-lisp
+(use-package smartparens
+  :ensure t
+  :diminish smartparens-mode
+  :config
+  (progn
+    (require 'smartparens-config)
+    (smartparens-global-mode 1)))
+#+END_SRC
+
+** Chat
+*** IRC
+#+BEGIN_SRC emacs-lisp
+  (use-package erc
+    :config
+    (setq erc-autojoin-channels-alist '(("freenode.net"
+                                        ; "#emacs"
+                                        ; "#emacs-beginners"
+                                       ))
+          erc-server "irc.freenode.net"
+          erc-nick irc-personal-nick))
 #+END_SRC
 
 ** Personalization    
@@ -258,6 +302,7 @@ Eldoc provides minibuffer hints when working with Emacs Lisp.
                     ((string-equal system-type "gnu/linux") "Symbola")))))
   (set-fontset-font t 'unicode font nil 'prepend))
 #+END_SRC
+
 ** Misc
 *** Display random function
 #+BEGIN_SRC emacs-lisp
